@@ -16,8 +16,6 @@ class SchoolController extends Controller
         $schools = School::all();
         
         if ($request->ajax()) {
-            // print_r($request);
-            // die("ok");
             $data = School::select('*');
             return Datatables::of($data)
                     ->addIndexColumn()
@@ -26,6 +24,18 @@ class SchoolController extends Controller
                     })
                     ->addColumn('school_city', function($row){
                          return $row->school_city;
+                    })
+                    ->addColumn('action', function($row){
+                        $btnShow = ' <a class="btn btn-info" href="'. route('schools.show', $row->id).'">Show</a>';
+                        $btnEdit = '<a class="btn btn-primary" href="'. route('schools.edit', $row->id).'">Edit</a>';
+                        $btnDelete = '<form action="'.route('schools.destroy', $row->id).'" method="POST" style="display:inline;">
+
+                            '.csrf_field().'
+                            '.csrf_field('DELETE').'
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>';
+                       
+                        return $btnShow . $btnEdit . $btnDelete;
                     })
                     ->filter(function ($instance) use ($request) {
                         if (!empty($request->get('school_name'))) {
@@ -38,11 +48,11 @@ class SchoolController extends Controller
                              $instance->where(function($w) use($request){
                                 $search = $request->get('search');
                                 $w->orWhere('name', 'LIKE', "%$search%")
-                                  ->orWhere('email', 'LIKE', "%$search%");
+                                  ->orWhere('city', 'LIKE', "%$search%");
                             });
                         }
                     })
-                    ->rawColumns(['school_name', 'school_city'])
+                    ->rawColumns(['school_name', 'school_city','action'])
                     ->make(true);
                 }
         

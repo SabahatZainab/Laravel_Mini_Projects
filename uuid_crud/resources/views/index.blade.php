@@ -60,9 +60,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                <!-- @if(isset($schools) && !empty($schools))
+                 {{-- @if(isset($schools) && !empty($schools))
                     @foreach($schools as $school)
-                    <tr>
+                    {{-- <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
                         <td>{{ $school->name }}</td>
                         <td>{{ $school->city }}</td>
@@ -78,9 +78,17 @@
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                         </td>     
+                    </tr> --}}
+                    {{-- <tr>
+                        <td class="col-sm-4">
+                            {!! $btnShow !!}
+                            {!! $btnEdit !!}
+                            {!! $btnDelete !!}
+                            {!! $action !!} 
+                        </td>  
                     </tr>
                     @endforeach
-                @endif -->
+                @endif --}} 
                     
                 </tbody>
         </table>
